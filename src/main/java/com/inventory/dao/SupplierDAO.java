@@ -1,4 +1,4 @@
-package com.inventory.dao;
+package com.inventory.DAO;
 
 import com.inventory.model.Supplier;
 import com.inventory.util.DBConnection;
@@ -9,17 +9,18 @@ import java.util.List;
 
 public class SupplierDAO {
 
-    // CREATE (INSERT)
+    // CREATE
     public void addSupplier(Supplier s) {
 
         try (Connection conn = DBConnection.getConnection()) {
 
-            String sql = "INSERT INTO supplier (name, email, phone) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO supplier (name, email, phone, address) VALUES (?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql);
 
             ps.setString(1, s.getName());
             ps.setString(2, s.getEmail());
             ps.setString(3, s.getPhone());
+            ps.setString(4, s.getAddress());
 
             ps.executeUpdate();
 
@@ -28,7 +29,7 @@ public class SupplierDAO {
         }
     }
 
-    // READ (GET ALL)
+    // READ
     public List<Supplier> getAllSuppliers() {
 
         List<Supplier> list = new ArrayList<>();
@@ -44,8 +45,9 @@ public class SupplierDAO {
                 Supplier s = new Supplier(
                         rs.getInt("id"),
                         rs.getString("name"),
+                        rs.getString("phone"),
                         rs.getString("email"),
-                        rs.getString("phone")
+                        rs.getString("address")
                 );
                 list.add(s);
             }
@@ -62,13 +64,14 @@ public class SupplierDAO {
 
         try (Connection conn = DBConnection.getConnection()) {
 
-            String sql = "UPDATE supplier SET name=?, email=?, phone=? WHERE id=?";
+            String sql = "UPDATE supplier SET name=?, email=?, phone=?, address=? WHERE id=?";
             PreparedStatement ps = conn.prepareStatement(sql);
 
             ps.setString(1, s.getName());
             ps.setString(2, s.getEmail());
             ps.setString(3, s.getPhone());
-            ps.setInt(4, s.getId());
+            ps.setString(4, s.getAddress());
+            ps.setInt(5, s.getId());
 
             ps.executeUpdate();
 

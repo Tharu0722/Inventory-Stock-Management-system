@@ -5,22 +5,24 @@ import java.sql.DriverManager;
 
 public class DBConnection {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/inventory_db";
-    private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static Connection con;
 
     public static Connection getConnection() {
-
-        Connection conn = null;
-
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            if (con == null || con.isClosed()) {
 
+                Class.forName("com.mysql.cj.jdbc.Driver");
+
+                con = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/inventory_db",
+                        "root",
+                        "rootTharu"
+                );
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return conn;
+        return con;
     }
 }

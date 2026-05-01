@@ -1,83 +1,60 @@
 package com.inventory.controller;
 
-import com.inventory.dao.SupplierDAO;
+import com.inventory.DAO.SupplierDAO;
 import com.inventory.model.Supplier;
+import com.inventory.util.DBConnection;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/supplier")
 public class SupplierServlet extends HttpServlet {
 
     SupplierDAO dao = new SupplierDAO();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
+        System.out.println(DBConnection.getConnection());
 
         String action = req.getParameter("action");
 
-        // CREATE
-        if (action.equals("add")) {
+        if (action == null) action = "list";
 
-            String name = req.getParameter("name");
-            String email = req.getParameter("email");
-            String phone = req.getParameter("phone");
+        switch (action) {
 
-            Supplier s = new Supplier();
-            s.setName(name);
-            s.setEmail(email);
-            s.setPhone(phone);
+            case "list":
+                List<Supplier> list = dao.getAllSuppliers();
+                req.setAttribute("suppliers", list);
+                req.getRequestDispatcher("supplier.jsp").forward(req, resp);
+                break;
 
-            dao.addSupplier(s);
+            case "delete":
+                int id = Integer.parseInt(req.getParameter("id"));
+                dao.deleteSupplier(id);
+                resp.sendRedirect("supplier?action=list");
+                break;
 
-            resp.sendRedirect("supplier?action=list");
-        }
-
-        // UPDATE
-        else if (action.equals("update")) {
-
-            int id = Integer.parseInt(req.getParameter("id"));
-
-            Supplier s = new Supplier();
-            s.setId(id);
-            s.setName(req.getParameter("name"));
-            s.setEmail(req.getParameter("email"));
-            s.setPhone(req.getParameter("phone"));
-
-            dao.updateSupplier(s);
-
-            resp.sendRedirect("supplier?action=list");
-        }
-
-        // DELETE
-        else if (action.equals("delete")) {
-
-            int id = Integer.parseInt(req.getParameter("id"));
-
-            dao.deleteSupplier(id);
-
-            resp.sendRedirect("supplier?action=list");
+            default:
+                resp.sendRedirect("supplier?action=list");
         }
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String action = req.getParameter("action");
+        Supplier s = new Supplier();
 
-        if (action == null || action.equals("list")) {
+        s.setName(req.getParameter("name"));
+        s.setPhone(req.getParameter("phone"));
+        s.setEmail(req.getParameter("email"));
+        s.setAddress(req.getParameter("address"));
 
-            List<Supplier> list = dao.getAllSuppliers();
+        dao.addSupplier(s);
 
-            req.setAttribute("suppliers", list);
-
-            req.getRequestDispatcher("supplier/viewSupplier.jsp")
-                    .forward(req, resp);
-        }
+        resp.sendRedirect("supplier?action=list");
     }
 }
