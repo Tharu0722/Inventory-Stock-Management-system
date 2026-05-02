@@ -33,33 +33,43 @@ The system is designed to manage inventory operations such as suppliers, product
 ---
 
 ## 📂 Project Structure
-Inventory-Stock-Management-system/
+Inventory-Stock-Management-System/
 │
 ├── pom.xml
 ├── README.md
+├── .gitignore
 │
 ├── src/
-│ └── main/
-│ ├── java/
-│ │ └── com/inventory/
-│ │ ├── controller/
-│ │ │ └── SupplierServlet.java
-│ │ │
-│ │ ├── DAO/
-│ │ │ └── SupplierDAO.java
-│ │ │
-│ │ ├── model/
-│ │ │ └── Supplier.java
-│ │ │
-│ │ └── util/
-│ │ └── DBConnection.java
-│ │
-│ └── webapp/
-│ ├── supplier.jsp
-│ ├── index.jsp
-│ ├── dashboard.jsp
-│ └── WEB-INF/
-│ └── web.xml
+│   └── main/
+│       ├── java/
+│       │   └── com/inventory/
+│       │       │
+│       │       ├── controller/
+│       │       │   └── SupplierServlet.java
+│       │       │
+│       │       ├── DAO/
+│       │       │   └── SupplierDAO.java
+│       │       │
+│       │       ├── model/
+│       │       │   └── Supplier.java
+│       │       │
+│       │       └── util/
+│       │           └── DBConnection.java
+│       │
+│       └── webapp/
+│           │
+│           ├── index.jsp
+│           ├── dashboard.jsp
+│           ├── supplier.jsp
+│           │
+│           ├── css/
+│           │   └── style.css
+│           │
+│           ├── js/
+│           │   └── script.js
+│           │
+│           └── WEB-INF/
+│               └── web.xml
 │
 └── target/
 
