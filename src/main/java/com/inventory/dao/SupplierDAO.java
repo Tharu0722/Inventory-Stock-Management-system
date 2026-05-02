@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SupplierDAO {
 
-    // CREATE
+    // ADD
     public void addSupplier(Supplier s) {
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -29,7 +29,7 @@ public class SupplierDAO {
         }
     }
 
-    // READ
+    // LIST
     public List<Supplier> getAllSuppliers() {
 
         List<Supplier> list = new ArrayList<>();
@@ -42,13 +42,15 @@ public class SupplierDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Supplier s = new Supplier(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("phone"),
-                        rs.getString("email"),
-                        rs.getString("address")
-                );
+
+                Supplier s = new Supplier();
+
+                s.setId(rs.getInt("id"));
+                s.setName(rs.getString("name"));
+                s.setPhone(rs.getString("phone"));
+                s.setEmail(rs.getString("email"));
+                s.setAddress(rs.getString("address"));
+
                 list.add(s);
             }
 
@@ -57,27 +59,6 @@ public class SupplierDAO {
         }
 
         return list;
-    }
-
-    // UPDATE
-    public void updateSupplier(Supplier s) {
-
-        try (Connection conn = DBConnection.getConnection()) {
-
-            String sql = "UPDATE supplier SET name=?, email=?, phone=?, address=? WHERE id=?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-
-            ps.setString(1, s.getName());
-            ps.setString(2, s.getEmail());
-            ps.setString(3, s.getPhone());
-            ps.setString(4, s.getAddress());
-            ps.setInt(5, s.getId());
-
-            ps.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     // DELETE

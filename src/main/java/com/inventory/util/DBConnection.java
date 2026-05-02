@@ -8,6 +8,7 @@ public class DBConnection {
     private static Connection con;
 
     public static Connection getConnection() {
+
         try {
             if (con == null || con.isClosed()) {
 
@@ -19,6 +20,7 @@ public class DBConnection {
                         "rootTharu"
                 );
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

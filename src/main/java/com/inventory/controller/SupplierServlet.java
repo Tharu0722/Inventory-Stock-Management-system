@@ -2,7 +2,6 @@ package com.inventory.controller;
 
 import com.inventory.DAO.SupplierDAO;
 import com.inventory.model.Supplier;
-import com.inventory.util.DBConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -17,8 +16,6 @@ public class SupplierServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        System.out.println(DBConnection.getConnection());
-
         String action = req.getParameter("action");
 
         if (action == null) action = "list";
@@ -28,7 +25,7 @@ public class SupplierServlet extends HttpServlet {
             case "list":
                 List<Supplier> list = dao.getAllSuppliers();
                 req.setAttribute("suppliers", list);
-                req.getRequestDispatcher("supplier.jsp").forward(req, resp);
+                req.getRequestDispatcher("/supplier.jsp").forward(req, resp);
                 break;
 
             case "delete":

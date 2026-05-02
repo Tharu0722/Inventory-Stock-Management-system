@@ -1,0 +1,13 @@
+<web-app>
+
+    <servlet>
+        <servlet-name>SupplierServlet</servlet-name>
+        <servlet-class>com.inventory.controller.SupplierServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SupplierServlet</servlet-name>
+        <url-pattern>/supplier</url-pattern>
+    </servlet-mapping>
+
+</web-app>
